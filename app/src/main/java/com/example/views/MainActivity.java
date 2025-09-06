@@ -1,14 +1,13 @@
 package com.example.views;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.views.databinding.ActivityMainBinding;
@@ -64,5 +63,13 @@ public class MainActivity extends AppCompatActivity {
                 activityMainBinding.etUser.getText().toString(),
                 activityMainBinding.etPassword.getText().toString()
         ));
+
+        mainActivityViewModel.getMutableUser().observe(this, user -> {
+            var goToHome = new Intent(this, HomeActivity.class);
+
+            goToHome.putExtra("user", user);
+
+            startActivity(goToHome);
+        });
     }
 }

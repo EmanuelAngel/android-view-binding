@@ -14,6 +14,7 @@ import Model.User;
 
 public class MainActivityViewModel extends AndroidViewModel {
     private MutableLiveData<String> mutableLogInResultMessage;
+    private MutableLiveData<User> mutableUser;
 
     public MainActivityViewModel(@NonNull Application application) {
         super(application);
@@ -27,18 +28,30 @@ public class MainActivityViewModel extends AndroidViewModel {
         return mutableLogInResultMessage;
     }
 
+    public LiveData<User> getMutableUser() {
+        if (mutableUser == null) {
+            mutableUser = new MutableLiveData<>();
+        }
+
+        return mutableUser;
+    }
+
     public void logIn(String user, String password) {
         if (user.equals("elpepe") && password.equals("golshi")) {
             var elpepe = new User(44600506, "elpepe", "Vortex", "golshi");
 
             mutableLogInResultMessage.setValue("Se ha iniciado sesión correctamente");
 
-            var goToHomeIntent = new Intent(getApplication(), HomeActivity.class);
+            mutableUser.setValue(elpepe);
 
-            goToHomeIntent.putExtra("user", elpepe);
-            goToHomeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-            getApplication().startActivity(goToHomeIntent);
+//            var goToHomeIntent = new Intent(getApplication(), HomeActivity.class);
+//
+//            goToHomeIntent.putExtra("user", elpepe);
+//            goToHomeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//
+//            getApplication().startActivity(goToHomeIntent);
+        } else {
+            mutableLogInResultMessage.setValue("Credenciales inválidas");
         }
     }
 }
